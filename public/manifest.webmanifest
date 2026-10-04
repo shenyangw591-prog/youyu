@@ -1,0 +1,17 @@
+{
+  "id": "/",
+  "name": "有余 · 生活费规划",
+  "short_name": "有余",
+  "description": "规划生活费，记录日常收支，慢慢积累想要的生活。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6fbf8",
+  "theme_color": "#008e64",
+  "icons": [
+    { "src": "/pwa/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/pwa/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/pwa/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
