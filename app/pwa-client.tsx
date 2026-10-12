@@ -50,7 +50,9 @@ export function InstallAppCard() {
       setInstalled(isInstalled());
       setPrompt(window.__youyuInstallPrompt ?? null);
     };
-    if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    if (!window.isSecureContext) {
+      setHint('本地版可直接在浏览器使用；安装到主屏幕请打开 HTTPS 正式版。');
+    } else if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
       setHint('在浏览器中点“分享”，选择“添加到主屏幕”。');
     }
     refresh();

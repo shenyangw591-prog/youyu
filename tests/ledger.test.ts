@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import {splitPlan,newLedger,metrics,parseMoney,ledgerSchema,goalSaved} from '../lib/ledger';
 import {parseCSV,rowsToBills} from '../lib/import-bills';
+import {calculateEntry,appendEntry,transactionCategory} from '../lib/transaction-categories';
+import {reportData,dayGroups} from '../lib/ledger-queries';
 const period='2026-10';
 for(const amount of [1,99,100,300001])assert.equal(Object.values(splitPlan(amount).amounts).reduce((a,b)=>a+b,0),amount);
 assert.deepEqual(splitPlan(300000).amounts,{living:150000,experience:90000,future:60000});
@@ -20,3 +22,33 @@ const legacyRefund={...parsed.rows[1],kind:'refund' as const,fingerprint:'微信
 const generic=rowsToBills(parseCSV('日期,说明,金额,收支,渠道\n2026-10-01,教材,39,支出,现金'),[],'示例.csv');assert.equal(generic.rows[0].bucket,'experience');assert.equal(generic.rows[0].channel,'现金');
 assert.deepEqual(parseCSV('a,b\n"第一行\n第二行","带""引号"'),[['a','b'],['第一行\n第二行','带"引号']]);
 console.log('PASS: 三账户分配、旧账本合并、历史记录兼容、支出收入导入、跨月统计、目标存入、金额校验与去重。');
+
+// The new entry metadata must survive storage while old records still parse.
+const entry={id:'entry',date:'2026-10-11',title:'午饭',category:'餐饮',note:'午饭',amount:1000,kind:'expense' as const,bucket:'experience' as const,channel:'手动记账'};
+const lifecycle=newLedger('记账闭环',300000,1,period);
+lifecycle.transactions=[entry];
+assert.equal(ledgerSchema.parse(lifecycle).transactions[0].category,'餐饮');
+assert.equal(ledgerSchema.parse(lifecycle).transactions[0].note,'午饭');
+assert.equal(metrics(lifecycle,period).remaining.experience,89000);
+assert.equal(dayGroups(lifecycle.transactions)[0].expense,1000);
+assert.equal(reportData(lifecycle.transactions,period,'month','expense','experience').total,1000);
+lifecycle.transactions=[{...entry,amount:1500,bucket:'living'}];
+assert.equal(metrics(lifecycle,period).remaining.experience,90000);
+assert.equal(metrics(lifecycle,period).remaining.living,148500);
+assert.equal(reportData(lifecycle.transactions,period,'month','expense','experience').total,0);
+lifecycle.transactions=[];
+assert.equal(metrics(lifecycle,period).remaining.living,150000);
+assert.equal(reportData(lifecycle.transactions,period,'month','expense','all').total,0);
+const crossing=[{...entry,date:'2026-09-30'}, {...entry,id:'oct',date:'2026-10-01',amount:2000}, {...entry,id:'income',date:'2026-10-02',kind:'income' as const,amount:5000}, {...entry,id:'refund',date:'2026-10-03',kind:'refund' as const,amount:500}, {...entry,id:'transfer',date:'2026-10-03',kind:'transfer' as const,amount:9000}];
+const week=reportData(crossing,period,'week','expense','all','2026-10-01');
+assert.equal(week.start,'2026-09-28');assert.equal(week.end,'2026-10-04');assert.equal(week.total,2500);assert.equal(week.points.length,7);
+assert.equal(reportData(crossing,period,'month','expense','all').total,1500);
+assert.equal(reportData(crossing,period,'year','expense','all').total,2500);
+assert.equal(reportData(crossing,period,'year','expense','all').points.length,12);
+assert.equal(reportData(crossing,period,'month','income','all').total,5000);
+assert.equal(transactionCategory({title:'午饭',kind:'expense'}),'餐饮');
+assert.equal(transactionCategory({...entry,title:'午饭',category:'学习'}),'学习');
+assert.equal(calculateEntry('0.10+0.20'),'0.30');assert.equal(calculateEntry('10+5-2.50'),'12.50');
+assert.throws(()=>calculateEntry('10-20'));assert.throws(()=>calculateEntry('10+'));assert.throws(()=>calculateEntry('1.234'));
+assert.equal(appendEntry('0','5'),'5');assert.equal(appendEntry('1.23','4'),'1.23');assert.equal(appendEntry('10+','-'),'10-');assert.equal(appendEntry('10.','+'),'10.00+');
+console.log('PASS: 新增／改账户／删除闭环、分类备注保存、跨月周统计、年统计、退款抵扣、收入筛选与金额键盘。');

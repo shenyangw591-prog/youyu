@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./green-theme.css";
+import "./ledger-recording.css";
 import { PwaBootstrap } from "./pwa-client";
 
 export const metadata: Metadata = {

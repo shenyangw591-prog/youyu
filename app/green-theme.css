@@ -54,3 +54,26 @@ body{background:radial-gradient(circle at 76% 0,#dbfbea 0,transparent 35%),#f6fb
 .install-app-card>div{min-width:0}.install-app-card h2{font-size:17px;font-weight:750;color:#102c24}.install-app-card p{margin-top:2px;font-size:12px;line-height:1.5;color:#739083}
 .install-app-card .btn{margin-left:auto;flex:none}
 @media(max-width:500px){.install-app-card{align-items:flex-start;padding:15px;gap:12px}.install-app-card img{width:48px;height:48px}.install-app-card .btn{align-self:center;padding:9px 11px;font-size:12px}}
+
+/* 账户名称保留识别色，卡片与进度沿用品牌绿色。 */
+.account-experience,.account-future{--account:#008e64;background:linear-gradient(140deg,#effff5,#fff 70%);border-color:#d9efdf}
+.account-experience strong,.bucket-card[data-account="experience"] .bucket-title{color:#176ab9}
+.account-future strong,.bucket-card[data-account="future"] .bucket-title{color:#793cba}
+.category-tag{display:inline-flex;align-items:center;border:1px solid transparent;border-radius:8px;padding:4px 9px;font-weight:700}
+.category-tag[data-account="living"]{color:#087b57;background:#e9f8ef;border-color:#d9f0e2}
+.category-tag[data-account="experience"]{color:#176ab9;background:#eaf4ff;border-color:#d7e9fb}
+.category-tag[data-account="future"]{color:#793cba;background:#f4ecff;border-color:#e7d9f9}
+@media(max-width:600px){
+ .ledger-table-card [data-slot="table"]{table-layout:fixed;width:100%}
+ .ledger-table-card th,.ledger-table-card td{padding:11px 3px}
+ .ledger-table-card th:nth-child(1){width:25%}
+ .ledger-table-card th:nth-child(2){width:22%}
+ .ledger-table-card th:nth-child(3){width:11%}
+ .ledger-table-card th:nth-child(4){width:23%}
+ .ledger-table-card th:nth-child(5){width:19%}
+ .ledger-table-card .category-tag{padding:3px 5px;font-size:11px}
+ .ledger-table-card .table-title{font-size:12px;line-height:1.45}
+ .ledger-table-card .amount-cell{font-size:12px}
+ .ledger-table-card .row-actions{gap:0}
+ .ledger-table-card .row-actions .icon-button{width:30px;height:30px}
+}
