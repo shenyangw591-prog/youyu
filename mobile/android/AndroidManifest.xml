@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.youyu.ledger.beta" android:versionCode="3" android:versionName="0.1.2-beta">
+  <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35" />
+  <application android:label="有余·内测" android:icon="@drawable/app_icon" android:allowBackup="false" android:usesCleartextTraffic="false" android:theme="@style/AppTheme" android:supportsRtl="true">
+    <activity android:name=".MainActivity" android:exported="true" android:configChanges="orientation|screenSize|keyboardHidden|uiMode" android:windowSoftInputMode="adjustResize">
+      <intent-filter><action android:name="android.intent.action.MAIN" /><category android:name="android.intent.category.LAUNCHER" /></intent-filter>
+    </activity>
+  </application>
+</manifest>

@@ -1,0 +1,8 @@
+[Unit]
+Description=Youyu SQLite backup
+After=youyu.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/youyu/current/ubuntu/backup.sh
+UMask=0077

@@ -57,3 +57,15 @@ node scripts/run-framework.mjs build
 ```
 
 数据库结构位于 `db/schema.ts`，初始迁移位于 `drizzle/`。导入核对和去重逻辑位于 `lib/import-bills.ts`。
+
+## 自有服务器与 Android 正式版（2026-10-27）
+
+新增面向阿里云 Ubuntu 24.04 的独立部署版本：官网 `/`、网页版 `/app`、账号密码登录注册 `/login`，通过 Node.js 24、SQLite、Nginx 与 systemd 运行。网站备案号为冀ICP备2025113362号-2。部署目录的数据与原 Sites、本机预览及 Android 账本相互独立。
+
+Android 1.0.0 使用正式应用 ID `com.youyu.ledger` 和独立正式签名，继续保留本地加密离线账本，不申请联网权限。原内测版可与正式版同时保留，通过 JSON 完整备份迁移。官网首屏及下载区均提供真实 APK 下载和 SHA-256 校验值。正式签名资料只保存在忽略的 `mobile/android/signing/`，不可上传到网站或删除。
+
+构建正式 APK：`node scripts/release-android.mjs`。检查服务器运行模块：`node --test deploy/selfhost/tests/runtime.test.mjs`。准备独立服务器源码：`node scripts/prepare-selfhost.mjs`，输出到忽略的 `outputs/youyu-server/`。该目录必须单独使用 Next.js 生产构建；原 Sites 的 Vite/Cloudflare 工作流保留。
+
+完整部署、HTTPS、账号管理和备份步骤见 [部署说明](deploy/README.md)。
+
+独立部署包现在使用 `deploy/selfhost/package-lock.json` 作为完整锁文件。生成目录准备后，运行 `node scripts/check-selfhost-lock.mjs <npm-cli.js绝对路径>`，通过本机及 Linux x64/glibc 的 npm ci 严格预检后，再用 Python 执行 `scripts/package-selfhost.py`。打包器核对预检的文件哈希，拒绝打包未验证或已变更的锁文件。

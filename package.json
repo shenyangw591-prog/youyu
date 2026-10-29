@@ -11,7 +11,11 @@
     "build": "node scripts/run-framework.mjs build",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "android:release": "node scripts/release-android.mjs",
+    "selfhost:prepare": "node scripts/prepare-selfhost.mjs",
+    "selfhost:test": "node --test deploy/selfhost/tests/runtime.test.mjs",
+    "selfhost:check-lock": "node scripts/check-selfhost-lock.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

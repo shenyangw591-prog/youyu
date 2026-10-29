@@ -1,0 +1,12 @@
+{
+  "versionName": "1.0.0",
+  "versionCode": 10000,
+  "packageId": "com.youyu.ledger",
+  "minAndroid": "8.0",
+  "website": "https://youyuapp.com.cn",
+  "filename": "youyu-1.0.0.apk",
+  "sha256": "a8e01900ab7525ed0d8107120cba51ece38dbbcb835ca0abda2a1d833867d66c",
+  "bytes": 6018266,
+  "storage": "offline",
+  "publishedAt": "2026-10-27"
+}

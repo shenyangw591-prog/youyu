@@ -1,0 +1,26 @@
+[Unit]
+Description=Youyu web application
+After=network.target
+
+[Service]
+Type=simple
+User=youyu
+Group=youyu
+WorkingDirectory=/opt/youyu/current
+Environment=NODE_ENV=production
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/etc/youyu/youyu.env
+ExecStart=/usr/local/bin/node /opt/youyu/current/node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3000
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/youyu /opt/youyu/current/.next/cache
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

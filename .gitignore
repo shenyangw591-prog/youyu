@@ -45,3 +45,18 @@ next-env.d.ts
 /.codex/
 /outputs/
 /work/
+
+# Android beta generated assets and private signing material
+/mobile-dist/
+/mobile/public/
+/mobile/android-build/
+/mobile/android/signing/
+*.keystore
+
+# Permanent Android release signing and server data
+*.p12
+*.jks
+/data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal

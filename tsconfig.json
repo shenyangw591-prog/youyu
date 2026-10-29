@@ -42,6 +42,8 @@
   ],
   "exclude": [
     "node_modules",
-    "examples"
+    "examples",
+    "deploy/selfhost/overlay",
+    "outputs"
   ]
 }

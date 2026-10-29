@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowUpRight, ChevronRight } from 'lucide-react';
 import SiteMotion from './site-motion';
+import AndroidDownload, { AndroidDownloadButton } from './android-download';
 import './site.css';
 
 export const metadata: Metadata = {
@@ -45,14 +46,16 @@ export default function IntroPage() {
               <img src="/marketing/brand-mark-imagegen.webp" alt="" width="40" height="40" />
               <span>有余</span>
             </Link>
+            <nav className="site-header-links"><Link href="/">打开网页版</Link><a href="#download">下载 App</a></nav>
           </header>
           <div className="hero-copy">
             <span className="hero-eyebrow">为年轻人的生活费，留一份从容</span>
             <h1 id="hero-title">把今天过好，<br />也把以后安排好。</h1>
             <p>生活费有方向，日子也更从容。</p>
-            <Link className="site-primary" href="/" aria-label="体验有余演示账本">
+            <div className="hero-actions"><Link className="site-primary" href="/" aria-label="体验有余演示账本">
               体验有余 <ArrowUpRight size={19} strokeWidth={1.8} aria-hidden="true" />
             </Link>
+            <AndroidDownloadButton className="site-secondary" /></div>
           </div>
           <div className="hero-process" aria-hidden="true">
             <span><b>01</b> 分配</span><i />
@@ -130,6 +133,7 @@ export default function IntroPage() {
         </div>
       </section>
 
+      <AndroidDownload />
       <section className="site-faq" aria-labelledby="faq-title">
         <div className="section-inner faq-layout" data-reveal>
           <div>
